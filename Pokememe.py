@@ -10,7 +10,6 @@ pokememe = {"Dwayne The Rock Johnson":  [5, 5, "Rock", "Ground", "Legendary", "I
               "SirYakari": [3, 3, "Fire", "Water", "Starter", "Dobrý den dámy a pánové"],
               "Mr Beast":  [4, 4, "Normal",  "Electric", "Common", "Mr Mr Mr Beast, Mr Mr Mr Beast"],
               "Mr Bean": [4, 3, "Normal", "", "Common", "TEDDY!"],
-              "Toilet Phantom": [4.75, 3, "Metal", "Water",  "Rare", "Fekální Shakespeare, moravský výtvarník a filozof"],
               "Resistor-Chan": [3, 3, "Electric",  "Metal", "Common", "OWO"],
               "Lava Chicken": [4.5, 3, "Normal", "Fire", "Common", "Lalalalava Chichichichicken"],
               "Крокодил Гена": [4, 4, "Water", "", "Rare", "Медленно минуты уплыбают в даль, встречи с ними ты уже не жди."],
@@ -18,7 +17,7 @@ pokememe = {"Dwayne The Rock Johnson":  [5, 5, "Rock", "Ground", "Legendary", "I
 
 # List of pokememe names, because the one you get with a method is crap
 pokememe_names = ["Dwayne The Rock Johnson", "Jolanda", "Kluk S Kamením", "SirYakari", "Mr Beast",
-                 "Mr Bean", "Toilet Phantom", "Resistor-Chan", "Lava Chicken", "Крокодил Гена", "Bridget"]
+                 "Mr Bean", "Resistor-Chan", "Lava Chicken", "Крокодил Гена", "Bridget"]
 
 lines_toggle = input("Do you want to have character lines turned on(y/n)?\n").strip().lower()
 
