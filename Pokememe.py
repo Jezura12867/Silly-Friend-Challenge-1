@@ -4,18 +4,18 @@ import random
 
 # List of all pokememe + stats
 #                                                                           A  H     T1          T2                   R                                      L
-pokememe = {"Dwayne The Rock Johnson":  [5, 5, "Rock", "Ground", "Legendary", "If you smell what The Rock is cooking"],
-              "Jolanda": [2.5, 5, "Normal", "", "Starter", "Tady vidím velký špatný"],
-              "Kluk S Kamením": [4, 3, "Rock", "", "Starter", "Já jsem si přišel hrát s kamením"],
-              "SirYakari": [3, 3, "Fire", "Water", "Starter", "Dobrý den dámy a pánové"],
-              "Mr Beast":  [4, 4, "Normal",  "Electric", "Common", "Mr Mr Mr Beast, Mr Mr Mr Beast"],
-              "Mr Bean": [4, 3, "Normal", "", "Common", "TEDDY!"],
-              "Resistor-Chan": [3, 3, "Electric",  "Metal", "Common", "OWO"],
-              "Lava Chicken": [4.5, 3, "Normal", "Fire", "Common", "Lalalalava Chichichichicken"],
-              "Крокодил Гена": [4, 4, "Water", "", "Rare", "Медленно минуты уплыбают в даль, встречи с ними ты уже не жди."],
-              "Bridget": [4, 4, "Normal", "", "Mythic", "Whoever you are, welcome to the show!"],
-              "Terminator": [4.5, 4, "Metal", "", "Common",'"I will be back"'],
-              "Krteček": [3.5, 4.5, "Normal", "Ground", "Hehehe"]}
+pokememe = {"Dwayne The Rock Johnson":  [4.5, 6, "Rock", "Ground", "Legendary", "If you smell what The Rock is cooking"],
+              "Jolanda": [2.5, 6, "Normal", "", "Starter", "Tady vidím velký špatný"],
+              "Kluk S Kamením": [3.5, 4, "Rock", "", "Starter", "Já jsem si přišel hrát s kamením"],
+              "SirYakari": [3, 4, "Fire", "Water", "Starter", "Dobrý den dámy a pánové"],
+              "Mr Beast":  [3.5, 4.75, "Normal",  "Electric", "Common", "Mr Mr Mr Beast, Mr Mr Mr Beast"],
+              "Mr Bean": [4, 4, "Normal", "", "Common", "TEDDY!"],
+              "Resistor-Chan": [3, 4, "Electric",  "Metal", "Common", "OWO"],
+              "Lava Chicken": [4, 4, "Normal", "Fire", "Common", "Lalalalava Chichichichicken"],
+              "Крокодил Гена": [3.75, 5, "Water", "", "Rare", "Медленно минуты уплыбают в даль, встречи с ними ты уже не жди."],
+              "Bridget": [4, 5, "Normal", "", "Mythic", "Whoever you are, welcome to the show!"],
+              "Terminator": [3.5, 5, "Metal", "", "Common",'"I will be back"'],
+              "Krteček": [3, 4.5, "Normal", "Ground",  "Common", "Hehehe"]}
 
 # List of pokememe names, because the one you get with a method is crap
 pokememe_names = ["Dwayne The Rock Johnson", "Jolanda", "Kluk S Kamením", "SirYakari", "Mr Beast",
@@ -83,6 +83,12 @@ while input("\nDo you wish to continue(y/n)?\n").lower().strip() == "y":
 
         sleep(1)
 
+    sleep(1)
+    
+    print(f"\nYour pokememe's health: {starter_stats[1]}\nOpponent's pokememe health: {opponent_pokememe_stats[1]}")
+
+    sleep(1)
+    
     outcome = "NaN"
     opponent_type  = 1
 
@@ -96,11 +102,13 @@ while input("\nDo you wish to continue(y/n)?\n").lower().strip() == "y":
             opponent_pokememe_stats[1] = opponent_pokememe_stats[1] - starter_stats[0] / 2 * dmg_strength  * opponent_type
             attack_type = 1
         else:
-            opponent_pokememe_stats[1] = opponent_pokememe_stats[1] - starter_stats[0] * dmg_strength * opponent_type
+            opponent_pokememe_stats[1] = opponent_pokememe_stats[1] - starter_stats[0]  * dmg_strength * opponent_type
             attack_type = 2
 
-        print(f"\nYour pokememe's health: {starter_stats[1]}\nOpponent's pokememe health: {opponent_pokememe_stats[1]}")
+        opponent_pokememe_stats[1] = round(opponent_pokememe_stats[1], 2)
 
+        print(f"\nYour pokememe's health: {starter_stats[1]}\nOpponent's pokememe health: {opponent_pokememe_stats[1]}")
+        
         # Outcome check
         if opponent_pokememe_stats[1] <= 0:
             outcome = "win"
@@ -114,6 +122,8 @@ while input("\nDo you wish to continue(y/n)?\n").lower().strip() == "y":
         opponent_type  = random.randint(1, 2)
 
         starter_stats[1] = starter_stats[1] - opponent_pokememe_stats[0] / opponent_type * attack_type * dmg_weakness
+
+        starter_stats[1] = round(starter_stats[1], 2)
 
         print(f"\nYour pokememe's health: {starter_stats[1]}\nOpponent's pokememe health: {opponent_pokememe_stats[1]}")
 
