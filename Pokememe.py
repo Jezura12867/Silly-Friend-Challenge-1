@@ -1,9 +1,21 @@
+# Spacing/variable laws in order of importance:
+
+# Comments are ignored
+
+# Defs have 2 blank lines surrounding them
+# Ifs have 1 blank line surrounding them
+
+# No more than 5 non-blank lines are allowed (except for dictionaries and lists)
+
+# Vars' names established OUTSIDE of defs: normal
+# Vars' names established IN defs: Have 1 letter at the end of a word per var REMOVED
+
 # Imports
 from time import sleep
 import random
 
 # List of all pokememe + stats
-#                                                                           A  H     T1          T2                   R                                      L
+#                                                                            A  H     T1          T2                   R                                      L
 pokememe = {"Dwayne The Rock Johnson":  [4.5, 6, "Rock", "Ground", "Legendary", "If you smell what The Rock is cooking"],
               "Jolanda": [2.5, 6, "Normal", "", "Starter", "Tady vidím velký špatný"],
               "Kluk S Kamením": [3.5, 4, "Rock", "", "Starter", "Já jsem si přišel hrát s kamením"],
@@ -14,29 +26,106 @@ pokememe = {"Dwayne The Rock Johnson":  [4.5, 6, "Rock", "Ground", "Legendary", 
               "Lava Chicken": [4, 4, "Normal", "Fire", "Common", "Lalalalava Chichichichicken"],
               "Крокодил Гена": [3.75, 5, "Water", "", "Rare", "Медленно минуты уплыбают в даль, встречи с ними ты уже не жди."],
               "Bridget": [4, 5, "Normal", "", "Mythic", "Whoever you are, welcome to the show!"],
-              "Terminator": [3.5, 5, "Metal", "", "Common",'"I will be back"'],
+              "Terminator": [3.5, 5, "Metal", "", "Common","I will be back"],
               "Krteček": [3, 4.5, "Normal", "Ground",  "Common", "Hehehe"]}
 
-# List of pokememe names, because the one you get with a method is crap
+# List of pokememe names, because the one you get with the method is crap
 pokememe_names = ["Dwayne The Rock Johnson", "Jolanda", "Kluk S Kamením", "SirYakari", "Mr Beast",
                  "Mr Bean", "Resistor-Chan", "Lava Chicken", "Крокодил Гена", "Bridget", "Terminator", "Krteček"]
 
+# Xp 
+xp: int = 0
+
+
+###################
+# FUNCTIONS HERE#
+###################
+
+
+def StarterChoice(star):
+    
+    # star == starter
+    if star.strip() == "1":
+        star = "Jolanda"
+        
+    elif star.strip() == "2":
+        star = "Kluk S Kamením"
+        
+    else:
+        star = "SirYakari"
+
+    print(f"Congrats! {star} is now yours!")
+
+    return star
+
+
+def TypeAdvantageManaging(star_stats, opponen_pokememe_stats):
+    
+    # Stat establishment
+    dmg_strengt = 1
+    dmg_weaknes = 1
+    weakness_list =  ["Normal", "Rock", "Metal", "Fire", "Water", "Electric", "Ground"]
+
+    # Spaghetti, yummy!
+    for i in range(len(weakness_list) - 1):
+        
+        if weakness_list[i] == star_stats[2] or weakness_list[i] == star_stats[3]:
+            
+            if weakness_list[i + 1] == opponen_pokememe_stats[2] or weakness_list[i + 1] == opponen_pokememe_stats[3]:
+                dmg_strengt -= 0.25
+                dmg_weaknes += 0.25
+                
+            elif weakness_list[i - 1] == opponen_pokememe_stats[2] or weakness_list[i - 1] == opponen_pokememe_stats[3]:
+                dmg_strengt += 0.25
+                dmg_weaknes -= 0.25
+                
+            else:
+                dmg_strengt = 1
+                dmg_weaknes = 1
+                
+    # Had to do this (well, actually no, bet you get the point)
+    if star_stats[2] == "Normal" and opponen_pokememe_stats[3]  ==  "Ground":
+                dmg_strengt += 0.25
+                dmg_weaknes -= 0.25
+
+    return [dmg_strengt, dmg_weaknes]
+
+
+def YourAttack(opponen_pokememe_stats, star_stats, dmg_strengt, opponen_type):
+    
+        # Attack type
+        attack_typ = input("\nWeak(W) attack with O.K. defence or Strong(S) attack with bad defence?\n")
+
+        # Decides what to do
+        if attack_typ.lower().strip() == "w":
+            opponen_pokememe_stats[1] = opponen_pokememe_stats[1] - star_stats[0] / 2 * dmg_strength  * opponen_type
+            attack_typ = 1
+            
+        else:
+            opponen_pokememe_stats[1] = opponen_pokememe_stats[1] - star_stats[0]  * dmg_strength * opponen_type
+            attack_typ = 2
+
+        opponen_pokememe_stats[1] = round(opponen_pokememe_stats[1], 2)
+
+        print(f"\nYour pokememe's health: {star_stats[1]}\nOpponent's pokememe health: {opponen_pokememe_stats[1]}")
+
+        return attack_typ
+
+
+#########################
+# FUNCTIONS STOP HERE#
+#########################
+
+
+# Starting stuff
 lines_toggle = input("Do you want to have character lines turned on(y/n)?\n").strip().lower()
 
-# Starter choice
 starter = input("\nPick your starter: Jolanda(1), Kluk S Kamením(2), SirYakari(3)\n")
-
-if starter.strip() == "1":
-    starter = "Jolanda"
-elif starter.strip() == "2":
-    starter = "Kluk S Kamením"
-else:
-    starter = "SirYakari"
-
-print(f"Congrats! {starter} is now yours!")
+starter = StarterChoice(starter)
 
 # Removing starter from general list of pokememe
 starter_stats = pokememe.get(starter)
+
 pokememe.pop(starter)
 pokememe_names.remove(starter)
 
@@ -54,27 +143,14 @@ while input("\nDo you wish to continue(y/n)?\n").lower().strip() == "y":
     opponent_max_health = opponent_pokememe_stats[1]
 
     # Type advantage managing
-    dmg_strength = 1
-    dmg_weakness = 1
-    weakness_list =  ["Normal", "Rock", "Metal", "Fire", "Water", "Electric", "Ground"]
-    for i in range(len(weakness_list) - 1):
-        if weakness_list[i] == starter_stats[2] or weakness_list[i] == starter_stats[3]:
-            if weakness_list[i + 1] == opponent_pokememe_stats[2] or weakness_list[i + 1] == opponent_pokememe_stats[3]:
-                dmg_strength -= 0.25
-                dmg_weakness += 0.25
-            elif weakness_list[i - 1] == opponent_pokememe_stats[2] or weakness_list[i - 1] == opponent_pokememe_stats[3]:
-                dmg_strength += 0.25
-                dmg_weakness -= 0.25
-            else:
-                dmg_strength = 1
-                dmg_weakness = 1
-
-    # Had to do this
-    if starter_stats[2] == "Normal" and opponent_pokememe_stats[3]  ==  "Ground":
-                dmg_strength += 0.25
-                dmg_weakness -= 0.25
+    strength_weakness: list = TypeAdvantageManaging(starter_stats, opponent_pokememe_stats)
+    
+    dmg_strength = strength_weakness[0]
+    dmg_weakness = strength_weakness[1]
     
     print(f"\n\nA WILD {opponent_pokememe.upper()} APPEARS")
+
+    print(f"{dmg_strength}\n{dmg_weakness}")
 
     if lines_toggle == "y":
         sleep(1)
@@ -95,19 +171,8 @@ while input("\nDo you wish to continue(y/n)?\n").lower().strip() == "y":
     # Start of battle
     while outcome == "NaN":
 
-        # Attack type
-        attack_type = input("\nWeak(W) attack with O.K. defence or Strong(S) attack with bad defence?\n")
-
-        if attack_type.lower().strip() == "w":
-            opponent_pokememe_stats[1] = opponent_pokememe_stats[1] - starter_stats[0] / 2 * dmg_strength  * opponent_type
-            attack_type = 1
-        else:
-            opponent_pokememe_stats[1] = opponent_pokememe_stats[1] - starter_stats[0]  * dmg_strength * opponent_type
-            attack_type = 2
-
-        opponent_pokememe_stats[1] = round(opponent_pokememe_stats[1], 2)
-
-        print(f"\nYour pokememe's health: {starter_stats[1]}\nOpponent's pokememe health: {opponent_pokememe_stats[1]}")
+        # Your turn
+        attack_type = YourAttack(opponent_pokememe_stats, starter_stats, dmg_strength, opponent_type)
         
         # Outcome check
         if opponent_pokememe_stats[1] <= 0:
@@ -120,9 +185,8 @@ while input("\nDo you wish to continue(y/n)?\n").lower().strip() == "y":
         print(f"\n{opponent_pokememe} attacks!")
 
         opponent_type  = random.randint(1, 2)
-
+        
         starter_stats[1] = starter_stats[1] - opponent_pokememe_stats[0] / opponent_type * attack_type * dmg_weakness
-
         starter_stats[1] = round(starter_stats[1], 2)
 
         print(f"\nYour pokememe's health: {starter_stats[1]}\nOpponent's pokememe health: {opponent_pokememe_stats[1]}")
@@ -137,23 +201,49 @@ while input("\nDo you wish to continue(y/n)?\n").lower().strip() == "y":
     # Win Yay ㄟ≧◇≦ㄏ
     if outcome == "win":
         print("\nYou've won!")
+
+        # Just learned that python has no switch statements (I don't personally think implementing it in another way is clean) :(
+        # A.K.A. xp management
+        rarity = opponent_pokememe_stats[4]
         
+        if rarity == "Starter" or rarity == "Common":
+            xp += 10
+            
+        elif rarity == "Rare":
+            xp += 20
+
+        elif rarity == "Mythic":
+            xp += 40
+
+        else:
+            xp += 75
+            
         starter_stats[1] = your_max_health
         opponent_pokememe_stats[1] = opponent_max_health
         
-        # Replacing pokememe
+        # Replacing pokememe - LONG
         replace = input("\nDo you wish to replace your current pokememe with the one defeated(y/n)?\n").lower().strip()
         if replace == "y":
             pokememe.update({starter: starter_stats})
+            
             pokememe_names.append(starter)
             pokememe_names.remove(opponent_pokememe)
+            
             pokememe.pop(opponent_pokememe)
+            
             starter  = opponent_pokememe
             starter_stats = opponent_pokememe_stats
+            
             print(f"Succesfuly replaced your pokememe with {starter}!")
+            
     # Loss
     else:
         print("\nYou've lost")
+        
+        sleep(2.5)
+
+        print(f"\nYour score: {xp}")
+
         sleep(5)
         break
     
